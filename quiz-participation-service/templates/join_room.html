@@ -1,15 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head><title>Join Room</title></head>
-<body>
-  <h1>Join Quiz Room</h1>
-  <form method="post" action="/join-room">
-    <input name="roomNumber" placeholder="Room Number" required>
-    <input name="studentName" placeholder="Your Name" required>
-    <button type="submit">Join</button>
-  </form>
-  {% if error %}
-  <p style="color:red">{{ error }}</p>
-  {% endif %}
+<body style="margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; background-color: #f4f4f4;">
+
+    <div style="max-width: 400px; margin: 80px auto; background-color: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+        <h1 style="text-align: center; color: #007BFF; margin-bottom: 30px;">Join Quiz Room</h1>
+
+        <form method="post" action="/join-room" style="display: flex; flex-direction: column; gap: 20px;">
+            <div style="display: flex; flex-direction: column;">
+                <input name="roomNumber" placeholder="Room Number" required 
+                    style="padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
+            </div>
+
+            <div style="display: flex; flex-direction: column;">
+                <input name="studentName" placeholder="Your Name" required 
+                    style="padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
+            </div>
+
+            <button type="submit" 
+                style="padding: 12px; background-color: #007BFF; color: white; font-size: 16px; border: none; border-radius: 6px; cursor: pointer;">
+                Join
+            </button>
+        </form>
+
+        {% if error %}
+            <p style="color: #dc3545; text-align: center; margin-top: 20px;">{{ error }}</p>
+        {% endif %}
+    </div>
+
 </body>
 </html>
