@@ -1,14 +1,20 @@
 from fastapi import APIRouter, Depends, File, UploadFile, Form, Request, HTTPException
+from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from utils.tokens import verify_access_token
 from database import get_db
+from models import Room
+from datetime import datetime, timedelta
+from pathlib import Path
 import uuid
 import shutil
-from models import Room
-from datetime import datetime
 import os
 
 router = APIRouter()
+
+# Jinja2 template setup
+BASE_DIR = Path(__file__).parent.parent.resolve()
+templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 
 @router.post("/create-room")
 def create_room(
@@ -24,7 +30,6 @@ def create_room(
 
     quizmaster_id = verify_access_token(token)
 
-    # ✅ Use the shared files volume path
     shared_files_dir = "/code/files"
     os.makedirs(shared_files_dir, exist_ok=True)
 
@@ -50,7 +55,10 @@ def create_room(
     db.commit()
     db.refresh(new_room)
 
-    return {"room_number": room_number}
+    return templates.TemplateResponse("room_created.html", {
+        "request": request,
+        "room_number": room_number
+    })
 
 
 @router.get("/rooms/{quizmaster_id}")
@@ -67,7 +75,6 @@ def get_rooms(
     rooms = db.query(Room).filter(Room.quizmasterID == quizmaster_id).all()
     return rooms
 
-from datetime import timedelta
 
 @router.get("/room/{room_number}")
 def check_room(
@@ -78,7 +85,6 @@ def check_room(
     if not room:
         return {"exists": False}
 
-    # Check if created within last 24 hours
     now = datetime.utcnow()
     if now - room.createdAt > timedelta(hours=24):
         return {"exists": False}
