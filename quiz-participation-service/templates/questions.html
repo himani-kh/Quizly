@@ -1,0 +1,30 @@
+<!-- templates/question.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Question {{ qid + 1 }}</title>
+</head>
+<body>
+    <h1>Question {{ qid + 1 }}</h1>
+    <p>{{ question.question }}</p>
+
+    <form method="post" action="/question?qid={{ qid }}&roomNumber={{ roomNumber }}&studentName={{ studentName }}">
+        {% for option in question.options %}
+            <label>
+                <input type="radio" name="answer" value="{{ option }}" required> {{ option }}
+            </label><br>
+        {% endfor %}
+    <input type="hidden" name="qid" value="{{ qid }}">
+    <input type="hidden" name="roomNumber" value="{{ roomNumber }}">
+    <input type="hidden" name="studentName" value="{{ studentName }}">
+    <input type="hidden" name="is_last" value="{{ is_last }}">
+
+    <button type="submit">
+        {% if is_last %}
+            Submit Quiz
+        {% else %}
+            Next Question
+        {% endif %}
+    </form>
+</body>
+</html>

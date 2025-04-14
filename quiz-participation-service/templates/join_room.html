@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head><title>Join Room</title></head>
+<body>
+  <h1>Join Quiz Room</h1>
+  <form method="post" action="/join-room">
+    <input name="roomNumber" placeholder="Room Number" required>
+    <input name="studentName" placeholder="Your Name" required>
+    <button type="submit">Join</button>
+  </form>
+  {% if error %}
+  <p style="color:red">{{ error }}</p>
+  {% endif %}
+</body>
+</html>

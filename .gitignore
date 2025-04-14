@@ -1,0 +1,46 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# SQLite DB
+quiz.db
+
+# Environment
+.env
+*.env
+**/venv/
+**/env/
+
+
+# Logs
+*.log
+
+# Virtual environment (if using)
+venv/
+env/
+
+.DS_Store
+Thumbs.db
+
+# Temporary answer submissions
+temp_answers/
+
+# Uploaded quiz files
+**/files/
+
+# Jupyter notebook checkpoints (if any)
+.ipynb_checkpoints/
+
+# Docker artifacts
+*.tar
+*.pid
+
+# VS Code settings
+.vscode/
+
+# PyCharm
+.idea/
+
+# Cache
+.cache/

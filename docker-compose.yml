@@ -1,0 +1,58 @@
+services:
+  auth:
+    build: ./authentication-service
+    container_name: authentication_service
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./authentication-service:/app
+      - .:/code
+    environment:
+      - SECRET_KEY=f9a8b7c6d5e4a3b2c1d0f123456789abcdef0123456789abcdef0123456789
+    networks:
+      - quiznet
+
+  quiz_management:
+    build: ./quiz_management_service
+    container_name: quiz_management_service
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./quiz_management_service:/app
+      - .:/code
+      - ./files:/code/files
+    depends_on:
+      - auth
+    networks:
+      - quiznet
+
+  participation:
+    build: ./quiz-participation-service
+    container_name: quiz_participation_service
+    ports:
+      - "8002:8002"
+    volumes:
+      - ./quiz-participation-service:/app
+      - .:/code
+      - ./files:/code/files
+    depends_on:
+      - quiz_management
+    networks:
+      - quiznet
+
+  results:
+    build: ./result-service
+    container_name: result_service
+    ports:
+      - "8003:8003"
+    volumes:
+      - ./result-service:/app
+      - .:/code
+    depends_on:
+      - auth
+    networks:
+      - quiznet
+
+networks:
+  quiznet:
+    driver: bridge

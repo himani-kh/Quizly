@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Quiz Rooms</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Your Rooms</h2>
+
+        {% if rooms %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Room Name</th>
+                    <th>Room Number</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for room in rooms %}
+                <tr>
+                    <td>{{ room.name }}</td>
+                    <td>{{ room.roomNumber }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No rooms found.</p>
+        {% endif %}
+
+        <h3>Check Room Scores</h3>
+        <form action="http://localhost:8003/get-scores" method="get">
+            <label for="room_number">Enter Room Number:</label>
+            <input type="text" id="room_number" name="room_number" required>
+            <button type="submit">Get Scores</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Quiz Room</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Create New Room</h2>
+        <form action="/create-room" method="post" enctype="multipart/form-data">
+            <label for="name">Room Name:</label>
+            <input type="text" name="name" required>
+
+            <label for="question_file">Question CSV:</label>
+            <input type="file" name="question_file" required>
+
+            <label for="answer_file">Answer CSV:</label>
+            <input type="file" name="answer_file" required>
+
+            <input type="submit" value="Create Room">
+        </form>
+    </div>
+</body>
+</html>
