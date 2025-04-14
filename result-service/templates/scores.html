@@ -3,28 +3,32 @@
 <head>
     <title>Scores for {{ roomNumber }}</title>
 </head>
-<body>
-    <h2>Scores for Room {{ roomNumber }}</h2>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px;">
 
-    {% if message %}
-        <p>{{ message }}</p>
-    {% else %}
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Student Name</th>
-                    <th>Score</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for row in scores %}
-                    <tr>
-                        <td>{{ row.studentName }}</td>
-                        <td>{{ row.score }}</td>
+    <div style="max-width: 600px; margin: auto; background-color: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <h2 style="text-align: center; color: #333;">Scores for Room {{ roomNumber }}</h2>
+
+        {% if message %}
+            <p style="text-align: center; color: #ff0000; font-weight: bold;">{{ message }}</p>
+        {% else %}
+            <table border="1" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                <thead>
+                    <tr style="background-color: #007BFF; color: white;">
+                        <th style="padding: 10px; text-align: left;">Student Name</th>
+                        <th style="padding: 10px; text-align: left;">Score</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% endif %}
+                </thead>
+                <tbody>
+                    {% for row in scores %}
+                        <tr style="background-color: {% if loop.index0 % 2 == 0 %}#f9f9f9{% else %}#ffffff{% endif %};">
+                            <td style="padding: 10px; border: 1px solid #ddd;">{{ row.studentName }}</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">{{ row.score }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+
 </body>
 </html>
