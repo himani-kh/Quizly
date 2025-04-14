@@ -4,16 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="/static/styles.css">
 </head>
-<body>
-    <h2>Login</h2>
-    <form action="/login" method="post">
-        <label>Email:</label>
-        <input type="email" name="email" required><br>
-        <label>Password:</label>
-        <input type="password" name="password" required><br>
-        <button type="submit">Login</button>
-    </form>
+<body style="margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; background-color: #f4f4f4;">
+
+    <div style="max-width: 400px; margin: 80px auto; background-color: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+        <h2 style="text-align: center; color: #007BFF; margin-bottom: 30px;">Login</h2>
+        
+        <form action="/login" method="post" style="display: flex; flex-direction: column; gap: 20px;">
+            <div style="display: flex; flex-direction: column;">
+                <label for="email" style="margin-bottom: 5px; color: #333;">Email:</label>
+                <input type="email" name="email" id="email" required 
+                    style="padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
+            </div>
+
+            <div style="display: flex; flex-direction: column;">
+                <label for="password" style="margin-bottom: 5px; color: #333;">Password:</label>
+                <input type="password" name="password" id="password" required 
+                    style="padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
+            </div>
+
+            <button type="submit" 
+                style="padding: 12px; background-color: #007BFF; color: white; font-size: 16px; border: none; border-radius: 6px; cursor: pointer;">
+                Login
+            </button>
+        </form>
+    </div>
+
 </body>
 </html>
