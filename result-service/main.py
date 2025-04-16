@@ -18,18 +18,21 @@ templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 @app.get("/get-scores", response_class=HTMLResponse)
 async def get_scores(
     request: Request,
-    roomNumber: str = Query(..., alias="room_number"),
+    room_number: str = Query(..., alias="room_number"),
     db: Session = Depends(get_db)
 ):
     token = get_token_from_cookie(request)
 
     user_email = verify_access_token(token)
-
-    scores = db.query(UsersAttended).filter(UsersAttended.roomNumber == roomNumber).all()
+    
+    if not user_email:
+        raise HTTPException(status_code=401, detail="Not logged in")
+    
+    scores = db.query(UsersAttended).filter(UsersAttended.roomNumber == room_number).all()
 
     return templates.TemplateResponse("scores.html", {
         "request": request,
-        "roomNumber": roomNumber,
+        "roomNumber": room_number,
         "scores": scores,
         "message": "No scores found for this room." if not scores else ""
     })

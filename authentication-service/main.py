@@ -115,6 +115,5 @@ def api_login_user(
     token_data = {"sub": quizmaster.email}
     token = create_access_token(token_data)
     print(token)
-    #return JSONResponse({"access_token": token, "token_type": "bearer"})
     return {"access_token": token, "token_type": "bearer"}
 

@@ -23,6 +23,6 @@ def verify_access_token(token: str):
         if user_email is None:
             raise HTTPException(status_code=401, detail="Invalid token")
         return user_email
-    except JWTError as e:
+    except JWTError:
         raise HTTPException(status_code=401, detail="Invalid token")
 

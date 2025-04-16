@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from utils.tokens import verify_access_token
 from database import get_db
 from models import Room
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 import uuid
 import shutil
@@ -49,7 +49,7 @@ def create_room(
         quizmasterID=quizmaster_id,
         questionFile=q_path,
         answerFile=a_path,
-        createdAt=datetime.utcnow()
+        createdAt=datetime.now(timezone.utc)
     )
     db.add(new_room)
     db.commit()
@@ -85,7 +85,7 @@ def check_room(
     if not room:
         return {"exists": False}
 
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
     if now - room.createdAt > timedelta(hours=24):
         return {"exists": False}
 

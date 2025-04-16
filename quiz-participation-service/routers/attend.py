@@ -10,15 +10,15 @@ import pandas as pd
 router = APIRouter()
 
 @router.post("/join-room-api")
-def join_room_api(roomNumber: str, studentName: str, db: Session = Depends(get_db)):
-    room = db.query(Room).filter(Room.roomnumber == roomNumber).first()
+def join_room_api(room_number: str, student_name: str, db: Session = Depends(get_db)):
+    room = db.query(Room).filter(Room.roomnumber == room_number).first()
     if not room:
         raise HTTPException(status_code=404, detail="Room not found or expired")
     return {"message": "Room joined successfully"}
 
 @router.get("/questions/{roomNumber}")
-def get_questions(roomNumber: str, db: Session = Depends(get_db)):
-    room = db.query(Room).filter(Room.roomnumber == roomNumber).first()
+def get_questions(room_number: str, db: Session = Depends(get_db)):
+    room = db.query(Room).filter(Room.roomnumber == room_number).first()
     if not room:
         raise HTTPException(status_code=404, detail="Room not found")
 
@@ -35,12 +35,12 @@ def get_questions(roomNumber: str, db: Session = Depends(get_db)):
     return {"questions": questions}
 
 @router.post("/submit-quiz-api")
-def submit_quiz_api(roomNumber: str, studentName: str, answers: list, db: Session = Depends(get_db)):
-    room = db.query(Room).filter(Room.roomnumber == roomNumber).first()
+def submit_quiz_api(room_number: str, student_name: str, answers: list, db: Session = Depends(get_db)):
+    room = db.query(Room).filter(Room.roomnumber == room_number).first()
     if not room:
         raise HTTPException(status_code=404, detail="Room not found")
 
     score = calculate_score(answers, room.answerfile)
-    db.add(UsersAttended(roomNumber=roomNumber, studentName=studentName, score=score))
+    db.add(UsersAttended(roomNumber=room_number, studentName=student_name, score=score))
     db.commit()
     return {"message": "Quiz submitted", "score": score}
