@@ -84,15 +84,15 @@ def secure_user_file_path(room_number: str, student_name: str) -> Path:
 async def handle_question(
     request: Request,
     qid: int,
-    roomNumber: str,
-    studentName: str,
+    room_number: str,
+    student_name: str,
     answer: str = Form(...),
     is_last: bool = Form(False)
 ):
     os.makedirs(BASE_ANSWER_DIR, exist_ok=True)
 
     try:
-        answer_file = secure_user_file_path(roomNumber, studentName)
+        answer_file = secure_user_file_path(room_number, student_name)
     except ValueError:
         return HTMLResponse("Invalid filename.", status_code=400)
 
@@ -101,28 +101,28 @@ async def handle_question(
 
     if is_last:
         return RedirectResponse(
-            f"/submit-quiz?roomNumber={roomNumber}&studentName={studentName}",
+            f"/submit-quiz?roomNumber={room_number}&studentName={student_name}",
             status_code=302
         )
 
     return RedirectResponse(
-        f"/question?qid={qid + 1}&roomNumber={roomNumber}&studentName={studentName}",
+        f"/question?qid={qid + 1}&roomNumber={room_number}&studentName={student_name}",
         status_code=302
     )
 
 @app.get("/submit-quiz", response_class=HTMLResponse)
 async def submit_quiz(
     request: Request,
-    roomNumber: str,
-    studentName: str,
+    room_number: str,
+    student_name: str,
     db: Session = Depends(get_db)
 ):
-    room = db.query(Room).filter(Room.roomnumber == roomNumber).first()
+    room = db.query(Room).filter(Room.roomnumber == room_number).first()
     if not room or not os.path.exists(room.answerfile):
         return HTMLResponse("Invalid room or answer file missing.", status_code=400)
 
     try:
-        answer_path = secure_user_file_path(roomNumber, studentName)
+        answer_path = secure_user_file_path(room_number, student_name)
     except ValueError:
         return HTMLResponse("Invalid filename.", status_code=400)
 
@@ -134,7 +134,7 @@ async def submit_quiz(
 
     score = calculate_score(student_answers, room.answerfile)
 
-    db.add(UsersAttended(roomNumber=roomNumber, studentName=studentName, score=score))
+    db.add(UsersAttended(roomNumber=room_number, studentName=student_name, score=score))
     db.commit()
 
     answer_path.unlink()  # safely delete file
@@ -142,6 +142,6 @@ async def submit_quiz(
     return templates.TemplateResponse("result.html", {
         "request": request,
         "score": score,
-        "studentName": studentName,
+        "studentName": student_name,
         "total": len(student_answers)
     })
